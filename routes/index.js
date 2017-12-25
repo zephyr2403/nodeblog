@@ -10,7 +10,8 @@ router.get('/', function(req, res, next) {
 
 posts.find({},{},function(err,posts){// nothing is passed because we want all the posts no queries are imposed
     res.render('index',{
-      "posts":posts
+      "posts":posts,
+       title:"Home"
         });//res.render
     });//posts.find
 });//router.get

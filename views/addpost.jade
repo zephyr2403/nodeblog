@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  div.ui.container(style="margin-top:80px;")
+    if errors
+      div.ui.red.message
+        i.close.icon
+        div.header(style="padding-bottom:5px;") Following Errors Occured During Form Submission
+        each error, i in errors
+            p #{error.msg}
+    form.ui.form(method='POST',action="/posts/add",enctype='multipart/form-data')
+      .ui.field
+        .three.fields
+          .field
+           label Title
+           input(type="text",name='title' value=Title)
+          .field
+           label  Category
+           input(type="text",name='category' value=category)
+          .field
+           label Author
+           input(type="text",name='author',value=author)
+        .field
+         label Description
+         input(type='text',name='description',value=description)
+        .field
+          label Body
+          textarea(rows="20",name='body',id='body',value=body)
+        .field
+         label Select Image For Post
+         input(type='file',name='mainimage')
+        button.ui.submit.button Save
+      script(src='/ckeditor/ckeditor.js')
+      script
+        | CKEDITOR.replace('body')

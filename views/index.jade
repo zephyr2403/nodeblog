@@ -2,6 +2,13 @@ extends layout
 
 block content
   div.ui.segment(style="margin-top:50px;")
-    if posts
-      each post, i in posts
-        h4.ui.header=post.title
+    div.ui.five.column.grid
+      if posts
+        each post, i in posts
+          div.ui.column
+            a.ui.card(href="/posts/show/#{post._id}")
+              div.ui.black.inverted.ribbon.label=post.category
+              div.content
+                .header=post.title
+                .meta=post.description
+              div.extra.content Date :#{moment(post.date).format("DD-MM-YYYY")}

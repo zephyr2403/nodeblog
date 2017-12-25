@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  div.ui.segment(style="margin-top:50px;")
+    if posts
+      each post, i in posts
+        h4.ui.header=post.title

@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/dist/semantic.min.css')
+  body
+    div.ui.sidebar.inverted.vertical.menu.left
+      a.item(class=(title==='Home'?'active':''),href="/") Home
+      a.item(class=(title==='Add Post'?'active':''),href="/posts/add") Add Post
+      a.item(class=(title==='Add Categories'?'active':''),href="/categories/add") Add Categories
+    div.ui.fixed.inverted.main.menu
+      opensidebar.item.opensidebar
+        i.large.sidebar.icon
+    block content
+    script(src="/javascripts/jquery-1.9.1.js")
+    script(src="/javascripts/script.js")
+    script(src="/javascripts/semantic.min.js")

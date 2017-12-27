@@ -1,14 +1,16 @@
 extends layout
 
 block content
-  div.ui.segment(style="margin-top:50px;")
+  div.ui.segment()
     div.ui.five.column.grid
       if posts
         each post, i in posts
-          div.ui.column
-            a.ui.card(href="/posts/show/#{post._id}")
-              div.ui.black.inverted.ribbon.label=post.category
-              div.content
+          div.ui.column.cardcontainer
+            a.ui.card.animated.fadeIn(href="/posts/show/#{post._id}")
+              div.ui.image
+                img.ui.large.image(src="/images/uploads/#{post.imagename}")
+                div.ui.black.inverted.ribbon.label #{post.category}
+              div.content.center.aligned
                 .header=post.title
                 .meta=post.description
               div.extra.content Date :#{moment(post.date).format("DD-MM-YYYY")}

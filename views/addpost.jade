@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.ui.container(style="margin-top:80px;")
+  div.ui.container(style="padding-top:20px;")
     if errors
       div.ui.red.message
         i.close.icon
@@ -25,11 +25,13 @@ block content
          input(type='text',name='description',value=description)
         .field
           label Body
-          textarea(rows="20",name='body',id='body',value=body)
+          textarea(rows="30",name='body',id='body')
         .field
-         label Select Image For Post
-         input(type='file',name='mainimage')
-        button.ui.submit.button Save
-      script(src='/ckeditor/ckeditor.js')
-      script
-        | CKEDITOR.replace('body')
+          label Select Image For Post
+          input(type='file',name='postimage')
+        button.ui.submit.button Submit Post
+
+  script(src='/ckeditor/ckeditor.js')
+  script(src="/javascripts/jquery-1.9.1.js")
+  script(type='text/javascript')
+    | CKEDITOR.replace('body')

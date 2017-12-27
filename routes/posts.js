@@ -19,13 +19,16 @@ router.post('/add',function(req,res,next){
   var author=req.body.author;
   var description = req.body.description;
   var date = new Date();
+   category=category.trim()
+  
+  if(req.files.postimage){
+    console.log('uploading..')
+    var postimageOriginalname=req.files.postimage.originalname;
+    var postimagename=req.files.postimage.name;
+    var postimagesize = req.files.postimage.size
 
-  if(req.files.mainimage){
-    var mainimageOriginalname=req.files.mainimage.originalname;
-    var mainimagename=req.files.mainimage.name;
-    var mainimagesize = req.files.mainimage.size
   }else{
-      var mainimagename="noimage.png ";
+      var postimagename="noimage.png";
   }
 
   req.checkBody('title','Title is Required').notEmpty();
@@ -37,12 +40,14 @@ router.post('/add',function(req,res,next){
   var errors = req.validationErrors();
   if(errors){
     res.render('addpost',{
+      title:"Add Post",
       "errors":errors,
       "Title":title,
       "category":category,
-      "body":body,
+      "Body":body,
       "author":author,
       "description":description
+
 
     })
   }else {
@@ -53,7 +58,8 @@ router.post('/add',function(req,res,next){
       "category":category,
       "author":author,
       "body":body,
-      "date":date
+      "date":date,
+      "imagename":postimagename
     },function(err,post){
       if(err){
         res.send('There was an issue sunmitting the post')

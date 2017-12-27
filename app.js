@@ -17,6 +17,7 @@ var app = express();
 
 //app.locals is used to create global variable
 app.locals.moment = require('moment');
+app.locals.unique =require('array-unique');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

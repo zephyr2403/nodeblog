@@ -3,15 +3,31 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/dist/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/animate.css')
+    style
+      |.hiddenz{display:none;}
+      |.display{display:block;}
+
   body
     div.ui.sidebar.inverted.vertical.menu.left
       a.item(class=(title==='Home'?'active':''),href="/") Home
       a.item(class=(title==='Add Post'?'active':''),href="/posts/add") Add Post
-      a.item(class=(title==='Add Categories'?'active':''),href="/categories/add") Add Categories
-    div.ui.fixed.inverted.main.menu
-      opensidebar.item.opensidebar
-        i.large.sidebar.icon
+    div(style="padding-bottom:35px;")
+      div.ui.fixed.inverted.main.menu
+        .item.opensidebar
+          i.large.sidebar.icon
+        - if (title==='Home')
+         .right.menu
+            .item
+              .ui.floating.labelled.icon.dropdown.button.inverted
+                i.filter.icon
+                span Filter Posts
+                .menu
+                  each post, i in uniquecategory
+                    .item #{post}
+      div.ui.container
+        != messages()
     block content
     script(src="/javascripts/jquery-1.9.1.js")
-    script(src="/javascripts/script.js")
     script(src="/javascripts/semantic.min.js")
+    script(src="/javascripts/script.js")

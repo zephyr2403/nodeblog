@@ -10,6 +10,76 @@ router.get('/add',function(req,res,next){
 
 });//router.get
 
+router.get('/show/:id',function(req,res,next){
+  var posts = db.get('posts')
+  var post ={}
+      posts.find({_id:req.params.id},{}).then((opost)=>{
+        opost.forEach(function(p){
+        post.id=p._id,
+        post.title=p.title,
+        post.body=p.body,
+        post.author=p.author,
+        post.category=p.category,
+        post.date=p.date,
+        post.comments=p.comments
+      })
+    res.render('show',{
+      "post":post,
+      "title":post.title
+    });//res.router
+  });//posts.find
+});//router.get
+
+router.post('/addcomment',function(req,res,next){
+
+  var postid = req.body.postid;
+  var body=req.body.body;
+  var email=req.body.email;
+  var usrname=req.body.usrname;
+  req.checkBody('usrname','Name is a required field').notEmpty()
+  req.checkBody('body','Body is a required field').notEmpty()
+  req.checkBody('email','Email is a required field').notEmpty()
+
+  var errors = req.validationErrors();
+  var posts = db.get('posts')
+  var post = {}
+  if(errors){
+
+    posts.find({_id:req.params.id},{}).then((opost)=>{
+      opost.forEach(function(p){
+        post.id=p._id,
+        post.title=p.title,
+        post.body=p.body,
+        post.author=p.author,
+        post.category=p.category,
+        post.date=p.date,
+        post.comments=p.comments
+      })
+      res.render('show',{
+        "post":post,
+        "errors":errors,
+        "title":post.title,
+        "usrname":usrname,
+        "email":email,
+        "body":body
+       });//res.router
+     });//find
+  }//if
+  else{
+    var comment={
+      "name":usrname,'email':email,'body':body,'commentdate':new Date()
+    }
+    posts.update({'_id':postid},
+    {
+      $push:{
+        'comments':comment
+            }
+    })
+      req.flash('error','Comment Added')
+      res.location('/posts/show/'+postid);
+      res.redirect('/posts/show/'+postid);
+    }//else
+  });//addcomment
 router.post('/add',function(req,res,next){
 
   //get the form value
@@ -20,16 +90,17 @@ router.post('/add',function(req,res,next){
   var description = req.body.description;
   var date = new Date();
    category=category.trim()
-  
+
   if(req.files.postimage){
-    console.log('uploading..')
+
     var postimageOriginalname=req.files.postimage.originalname;
     var postimagename=req.files.postimage.name;
     var postimagesize = req.files.postimage.size
-
-  }else{
+    }
+    else
+    {
       var postimagename="noimage.png";
-  }
+    }
 
   req.checkBody('title','Title is Required').notEmpty();
   req.checkBody('category','Category is Required').notEmpty();
@@ -47,8 +118,6 @@ router.post('/add',function(req,res,next){
       "Body":body,
       "author":author,
       "description":description
-
-
     })
   }else {
     var posts = db.get('posts');
@@ -62,7 +131,7 @@ router.post('/add',function(req,res,next){
       "imagename":postimagename
     },function(err,post){
       if(err){
-        res.send('There was an issue sunmitting the post')
+        res.send('There was an issue sumitting the post')
       }else {
         req.flash('success','Post Submitted') ;
         res.location('/');

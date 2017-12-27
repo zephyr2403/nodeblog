@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  .ui.container(style="padding-top:20px;")
+    .ui.black.segment.center.aligned
+      h1= title
+    .ui.three.column.grid
+      .ui.column
+        .ui.red.segment
+          .ui.header.red
+            i.cube.icon
+            .content Category: #{post.category}
+      .ui.column
+        .ui.red.segment
+          .ui.header.red
+            i.address.card.icon
+            .content Author: #{post.author}
+      .ui.column
+        .ui.red.segment
+          .ui.header.red
+            i.calendar.icon
+            .content Date: #{moment(post.date).format("DD-MM-YYYY")}
+    h4.ui.horizontal.divider.header
+      i.angle.double.down.icon
+      | Post
+    .ui.very.tall.stacked.segment
+      !{post.body}
+    h4.ui.horizontal.divider.header
+      i.comment.icon
+      | Comment Section
+    if post.comments
+        each comment, i in post.comments
+          .ui.segment
+            h4.ui.header #{comment.name} says,
+            .ui.divider
+            label #{comment.body}
+            .ui.divider
+            h4 Date:
+            |#{moment(comment.commentdate).format('DD-MM-YYYY')}
+
+    if errors
+      div.ui.red.message
+        i.close.icon
+        div.header(style="padding-bottom:5px;") Following Errors Occured During Form Submission
+        each error, i in errors
+            p #{error.msg}
+    .ui.segment.basic
+      form.ui.form(method="POST",action='/posts/addcomment')
+        .two.fields
+          .field
+            label Name
+            input(name='usrname',type='text',value=usrname)
+          .field
+            label Email
+            input(name='email',type='email',value=email)
+        .field
+          input(name='postid',value='#{post.id}',type='hidden')
+          label Add Comment
+          textarea(rows=5,name='body',value=body)
+        button.ui.submit.button Submit Post

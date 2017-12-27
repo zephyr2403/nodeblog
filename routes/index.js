@@ -6,39 +6,19 @@ var unique = require('array-unique')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var db = req.db;
-  var posts= db.get('posts')//name of database
-
-  //  var uniquecate=posts.distinct('category')
-  //  posts.distinct('category',function(categories){
-  //   uniquecate = categories;
-  //   //console.log(categories);
-  //  })
-  // fetchcate.on('success',function(categories){
-  //   alert(categories);
-  // })
-  //var unicat = posts.distinct('category')
-  //console.log(unicat);
-
-  //req.flash('success','Nigga Boy');
+  var posts= db.get('posts');//name of database
 posts.find({},{},function(err,posts){// nothing is passed because we want all the posts no queries are imposed
-    var uniquecategory = ['All']
-
+    var uniquecategory = ['All'];
     posts.forEach(function(post){
       uniquecategory.push(post.category)
     })
-    unique(uniquecategory)
-
-
-    //uniquecategory.push(posts.category)
-    //console.log(unicat)
-    //console.log(uniquecate)
+    unique(uniquecategory);
     res.render('index',{
       "posts":posts,
        title:"Home",
        "uniquecategory":uniquecategory
         });//res.render
     });//posts.find
-
 });//router.get
 
 module.exports = router;

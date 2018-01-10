@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  div.ui.container(style="margin-top:20px;")
+    div.ui.tall.stacked.segment
+      .ui.equal.width.padded.grid
+        .row.fluid.stretched.equal.width
+          .ui.four.wide.column
+            img.ui.circular.medium.image(src='/images/uploads/'+user.profileimage)
+          .ui.column.center.aligned
+            .ui.raised.segment.animated.fadeInRight
+              h2.ui.icon.header.detail
+                i.grey.user.circle.icon
+                .content Name
+                .sub.header #{user.fname} #{user.lname}
+          .ui.column.center.aligned
+            .ui.raised.segment.animated.fadeInDown
+              h2.ui.icon.header.detail
+                i.grey.mail.icon
+                .content Email
+                .sub.header #{user.email}
+          .ui.column.center.aligned
+            .ui.raised.animated.fadeInLeft.segment
+              h2.ui.icon.header.detail
+                i.grey.file.text.outline.icon
+                .content Total Posts
+                .sub.header #{userposts.length}
+    if(userposts.length>0)
+      div.ui.tall.stacked.segment
+        each post, i in userposts
+          .ui.raised.segment.center.aligned
+            h1.ui.sub.header
+              a(href="/posts/show/#{post._id}") #{post.title} :
+            span #{post.description}

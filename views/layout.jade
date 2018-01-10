@@ -4,14 +4,21 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/dist/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/animate.css')
-    style
-      |.hiddenz{display:none;}
-      |.display{display:block;}
-
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.ui.sidebar.inverted.vertical.menu.left
       a.item(class=(title==='Home'?'active':''),href="/") Home
-      a.item(class=(title==='Add Post'?'active':''),href="/posts/add") Add Post
+        i.home.icon.large
+      if(user)
+        a.item(class=(title==='Add Post'?'active':''),href="/posts/add") Add Post
+          i.file.text.large.icon
+        a.item(class=(title==='Profile'?'active':''),href="/viewprofile/#{user.fname}") View Profile
+          i.user.large.icon
+      if(!user)
+        a.item(class=(title==='Login'?'active':''),href="/login") Login
+          i.sign.in.large.icon
+        a.item(class=(title==='Register'?'active':''),href="/register") Register
+          i.add.user.large.icon
     div(style="padding-bottom:35px;")
       div.ui.fixed.inverted.main.menu
         .item.opensidebar
@@ -25,7 +32,17 @@ html
                 .menu
                   each post, i in uniquecategory
                     .item #{post}
-    div.ui.container
+            if(user)
+              .item
+                h4 Welcome, #{user.fname}
+              a.item(href='/logout')
+                h4 LogOut
+        - if(title!=='Home')
+          - if(user)
+            .right.menu
+              a.item(href='/logout')
+                h4 LogOut
+    div.ui.center.aligned.container
      != messages()
     block content
     script(src="/javascripts/jquery-1.9.1.js")

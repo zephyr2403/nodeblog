@@ -3,12 +3,18 @@ var router  = express.Router();
 var mongo = require('mongodb');
 var db = require('monk')('localhost/nodeblog')
 //Url to post should be /posts/add
-router.get('/add',function(req,res,next){
+router.get('/add',ensureAuthentication,function(req,res,next){
   res.render('addpost',{
     title:"Add Post"
   })//res.render
-
 });//router.get
+
+function ensureAuthentication(req,res,next)
+{
+  if(req.isAuthenticated())//Passport authenticate API
+    return next();
+  res.redirect('/login');
+}
 
 router.get('/show/:id',function(req,res,next){
   var posts = db.get('posts')
@@ -42,10 +48,9 @@ router.post('/addcomment',function(req,res,next){
 
   var errors = req.validationErrors();
   var posts = db.get('posts')
-  var post = {}
+  var post = {id:"",title:"",body:"",author:'',category:"",date:"",comments:""}
   if(errors){
-
-    posts.find({_id:req.params.id},{}).then((opost)=>{
+    posts.find({_id:postid},{}).then((opost)=>{
       opost.forEach(function(p){
         post.id=p._id,
         post.title=p.title,
@@ -55,6 +60,7 @@ router.post('/addcomment',function(req,res,next){
         post.date=p.date,
         post.comments=p.comments
       })
+      //console.log(post)
       res.render('show',{
         "post":post,
         "errors":errors,
@@ -75,7 +81,7 @@ router.post('/addcomment',function(req,res,next){
         'comments':comment
             }
     })
-      req.flash('error','Comment Added')
+      req.flash('success','Comment Added')
       res.location('/posts/show/'+postid);
       res.redirect('/posts/show/'+postid);
     }//else
@@ -104,7 +110,6 @@ router.post('/add',function(req,res,next){
 
   req.checkBody('title','Title is Required').notEmpty();
   req.checkBody('category','Category is Required').notEmpty();
-  req.checkBody('author','Author is Required').notEmpty();
   req.checkBody('description','Description is Required').notEmpty();
   req.checkBody('body','Body is Required').notEmpty();
 
@@ -116,7 +121,6 @@ router.post('/add',function(req,res,next){
       "Title":title,
       "category":category,
       "Body":body,
-      "author":author,
       "description":description
     })
   }else {

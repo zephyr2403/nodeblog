@@ -10,16 +10,14 @@ block content
             p #{error.msg}
     form.ui.form(method='POST',action="/posts/add",enctype='multipart/form-data')
       .ui.field
-        .three.fields
+        .two.fields
           .field
            label Title
            input(type="text",name='title' value=Title)
           .field
            label  Category
            input(type="text",name='category' value=category)
-          .field
-           label Author
-           input(type="text",name='author',value=author)
+           input(type="hidden",name='author',value=user.fname)
         .field
          label Description
          input(type='text',name='description',value=description)

@@ -1,0 +1,39 @@
+extends  layout
+
+block content
+  if(!user)
+    .ui.text.container
+      .ui.segment.raised.grey(style="margin-top:180px;")
+        h1 Register , It's Free
+        if errors
+          div.ui.red.message
+            i.close.icon
+            div.header(style="padding-bottom:5px;") Following Errors Occured During Form Submission
+            each error, i in errors
+                p #{error.msg}
+        form.ui.form(method='POST',action="/register",enctype='multipart/form-data')
+          .ui.field
+            label Name
+            .ui.two.fields
+              .ui.field
+                input(type='text',name='fname')
+              .ui.field
+                input(type='text',name='lname')
+            .ui.field
+              label Email
+              input(type="email",name="email")
+            .two.fields
+              .field
+               label Password
+               input(type="password",name="pass")
+              .field
+               label Retype Password
+               input(type="password",name="repass")
+            .field
+              label Profile Image
+              input(type='file',name='profileimage')
+            button.ui.submit.button Register
+  if(user)
+    div.ui.container(style='margin-top:200px')
+      div.ui.tall.green.stacked.segment.center.aligned
+        h3 LogOut from you account to register

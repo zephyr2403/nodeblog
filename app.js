@@ -5,14 +5,23 @@ var logger = require('morgan');
 var expressValidator=require('express-validator');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+
+var passport =require('passport');
+var LocalStrategy=require('passport-local').Strategy;
+
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var db = require('monk')('localhost/nodeblog');
 var multer = require('multer');
 var flash = require('connect-flash');
+
+
 var index = require('./routes/index');
 var posts = require('./routes/posts');
-
+var register = require('./routes/register')
+var login = require('./routes/login')
+var logout = require('./routes/logout');
+var viewprofile = require('./routes/viewprofile')
 var app = express();
 
 //app.locals is used to create global variable
@@ -36,6 +45,10 @@ app.use(session({
   saveUninitialised:true,
   resave:true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(expressValidator({
    errorFormatter:function(param,msg,value) {
      var namespace = param.split('.'),
@@ -64,9 +77,22 @@ app.use(function(req,res,next){
   next();
 })
 
+app.get('*',function(req,res,next){
+  res.locals.user = req.user || null ;
+  next();
+});
+
+app.post('*',function(req,res,next){
+  res.locals.user = req.user || null ;
+  next();
+})
+
 app.use('/', index);
 app.use('/posts', posts);
-
+app.use('/register',register)
+app.use('/login',login)
+app.use('/logout',logout)
+app.use('/viewprofile',viewprofile)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

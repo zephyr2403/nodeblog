@@ -8,7 +8,7 @@ A Blogging Platform Built on **NodeJs** at *backend*, uses **Jade** as *template
 * User can add comment to post  
 * Registered Users can see their profile 
 
-### Make sure the following tasks are performed before using :
+### Make sure following tasks are performed before using :
 
 Create <MongoDB> database nodeblog with a collection posts  
 ##### Use the following commands  

@@ -3,7 +3,7 @@ extends layout
 block content
   if(!user)
     .ui.text.container(style='margin-top:200px')
-      .ui.raised.grey.segment
+      .ui.raised.grey.segment.animated.flipInY
         h1.grey.header Login To Your Account
         form.ui.form(method='POST',action="/login")
           .ui.field

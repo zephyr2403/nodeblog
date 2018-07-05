@@ -3,7 +3,7 @@ extends  layout
 block content
   if(!user)
     .ui.text.container
-      .ui.segment.raised.grey(style="margin-top:180px;")
+      .ui.segment.raised.grey.animated.flipInX(style="margin-top:180px;")
         h1 Register , It's Free
         if errors
           div.ui.red.message

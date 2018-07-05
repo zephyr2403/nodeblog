@@ -2,11 +2,11 @@ extends layout
 
 block content
   div.ui.segment.basic
-    div.ui.five.column.grid
+    div.ui.doubling.five.column.grid
       if posts
         each post, i in posts
           div.ui.column.cardcontainer
-            a.ui.card.animated.fadeIn(href="/posts/show/#{post._id}")
+            a.ui.fluid.card.animated.fadeIn(href="/posts/show/#{post._id}")
               div.ui.image
                 img.ui.large.image(src="/images/uploads/#{post.imagename}")
                 div.ui.black.inverted.ribbon.label #{post.category}

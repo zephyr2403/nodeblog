@@ -21,3 +21,12 @@ ul.error li{
 .ui.icon.header.detail{
 margin-top: 15%;
 }
+
+img.ui.large.image
+{
+ height:300px;
+}
+
+div.content.center.aligned{
+height:90px;
+}

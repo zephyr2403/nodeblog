@@ -11,8 +11,9 @@ posts.find({},{},function(err,posts){// nothing is passed because we want all th
     var uniquecategory = ['All'];
     posts.forEach(function(post){
       uniquecategory.push(post.category)
-    })
+    })//.forEach
     unique(uniquecategory);
+
     res.render('index',{
       "posts":posts,
        title:"Home",

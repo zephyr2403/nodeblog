@@ -18,23 +18,21 @@ function ensurenotAuthentication(req,res,next)
 router.post('/',function(req,res,next){
   //getting form value
   console.log('Register');
-  var fname = req.body.fname;
-  var lname =req.body.lname;
-  var email =req.body.email
+  var fname = req.body.fname.trim();
+  var lname =req.body.lname.trim();
+  var email =req.body.email.trim();
   var pass = req.body.pass;
   var repass=req.body.repass;
 
   //Checking for image field
-  if(req.files.profileimage)
+
+  if(req.files.length>0)
   {
     console.log('uploading image .. ');
     //Storing Uploaded Image Details in Variables
-    var imageorigname = req.files.profileimage.originalname;
-    var imagename= req.files.profileimage.name;
-    var imagemime= req.files.profileimage.mimetype;
-    var imagepath= req.files.profileimage.path;
-    var imageextension= req.files.profileimage.extension;
-    var imagesize= req.files.profileimage.size;
+    var imagename= req.files[0].filename;
+
+    console.log(imagename)
   }
   else {
       //If no image is selected a default image will be shown

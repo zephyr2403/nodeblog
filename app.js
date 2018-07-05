@@ -30,7 +30,7 @@ app.locals.unique =require('array-unique');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(multer({dest:'./public/images/uploads'}).any());
+app.use(multer({dest:'./public/images/uploads/'}).any());
 
 
 

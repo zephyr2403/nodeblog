@@ -89,19 +89,16 @@ router.post('/addcomment',function(req,res,next){
 router.post('/add',function(req,res,next){
 
   //get the form value
-  var title = req.body.title;
-  var category=req.body.category;
+  var title = req.body.title.trim();
+  var category=req.body.category.toLowerCase().trim();
   var body =req.body.body;
-  var author=req.body.author;
-  var description = req.body.description;
+  var author=req.body.author.trim();
+  var description = req.body.description.trim();
   var date = new Date();
-   category=category.trim()
+  
 
-  if(req.files.postimage){
-
-    var postimageOriginalname=req.files.postimage.originalname;
-    var postimagename=req.files.postimage.name;
-    var postimagesize = req.files.postimage.size
+  if(req.files.length>0){
+    var postimagename=req.files[0].filename;
     }
     else
     {
@@ -111,6 +108,7 @@ router.post('/add',function(req,res,next){
   req.checkBody('title','Title is Required').notEmpty();
   req.checkBody('category','Category is Required').notEmpty();
   req.checkBody('description','Description is Required').notEmpty();
+  req.checkBody('description','Max 35 characters').isLength({max:35});
   req.checkBody('body','Body is Required').notEmpty();
 
   var errors = req.validationErrors();
